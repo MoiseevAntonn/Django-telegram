@@ -1,0 +1,70 @@
+{% extends 'polls/main.html' %}
+{% load staticfiles %}
+
+{% block index %}
+    <html>
+    <head>
+        <title>Django</title>
+        <link href="{% static 'polls/founation/css/foundation.css' %}" rel="stylesheet">
+    </head>
+    <body>
+    <div class="top-bar" align="center">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          {% if username %}
+              <li><a href="{% url 'auth:logout' %}">Exit? ({{ username }})</a> </li>
+              <li><a href="{% url 'auth:cabinet' %}">Your personal cabinet</a></li>
+              <li><a href="{% url 'auth:get_links' %}">Fucking links</a></li>
+          {% else %}
+              <li><a href="{% url 'auth:login' %}">Entire? </a> </li>
+                {% endif %}
+        </ul>
+      </div>
+    </div>
+    <h1 align="center">Мой блог</h1>
+    <br>
+    <br>
+    <br>
+    {% if latest_question_list %}
+        <ol align="center">
+        {% for question in latest_question_list %}
+            <h4>{{ question.pub_date }}</h4>
+            <h2><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></h2>
+            <hr/>
+            <br>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p align="center">No polls are available.</p>
+    {% endif %}
+    <div class="row">
+        <div class="large-3 large-offset-5 columns" align="center">
+            <ul class="pagination">
+                {% if latest_question_list.has_previous %}
+                    <li class="arrow"><a href="/polls/page/{{ latest_question_list.previous_page_number }}/">Дальше</a> </li>
+                {% else %}
+                    <li class="arrow unavailable"><a href="">Дальше</a> </li>
+                {% endif%}
+                {% for page in latest_question_list.paginator.page_range %}
+                    {% if page == latest_question_list.number %}
+                        <li class="current"><a href="/page/{{ page }}/">{{ page }}</a> </li>
+                    {% else %}
+                        <li><a href="/page/{{ page }}/">{{ page }}</a> </li>
+                    {% endif %}
+                {% endfor %}
+                {% if latest_question_list.has_next %}
+                    <li class="arrow"><a href="/polls/page/{{ latest_question_list.next_page_number }}/">Предыдущее</a> </li>
+                {% else %}
+                    <li class="arrow unavailable"><a href="">Предыдущее;</a> </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+    <img src="{% static 'polls/pe.png' %}" width="100%">
+
+{% endblock %}
+
+
+</body>
+</html>

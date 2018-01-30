@@ -1,0 +1,28 @@
+{% extends 'polls/main.html' %}
+{% load staticfiles  %}
+
+{% block login %}
+    <link href="{% static 'polls/founation/css/foundation.css' %}" rel="stylesheet">
+    <h3 align="center">Личный кабинет</h3>
+    <div class="large-offset-3 large offset-6 columns" ">
+        <h4>your username: {{ username }}</h4>
+        <h4>your email: {{ email }}</h4>
+        <h4>Your telegram bot: <a href={{ telegram_bot}}>In this !</a></h4>
+        {% if not email %}
+            <h4>You have no email!</h4>
+            <h4>Please,entiry it:</h4>
+            <form action="{% url 'auth:get_email'%}" method="post">
+                {% csrf_token %}
+                <input type="text" name="email">
+                <input type="text" name="password">
+                <input class="Button" type="submit" value="Entire">
+            </form>
+
+        {% endif %}
+    </div>
+    <br>
+    
+
+
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends 'polls/main.html' %}
+{% load staticfiles  %}
+
+{% block login %}
+    <link href="{% static 'polls/founation/css/foundation.css' %}" rel="stylesheet">
+    <h3 align="center">Форма авторизации</h3>
+    <div class="large-offset-3 large offset-6 columns" align="center">
+        <form action="{% url 'auth:login' %}" method="post">
+            {% csrf_token %}
+            <label for="username">Имя</label>
+            <input type="text" name="username" id="username">
+            <label for="password">Пароль</label>
+            <input type="password" name="password" id="password">
+            {% if login_error %}
+                <label class="error">{{ login_error }}</label>
+            {% endif %}
+            <input class="Button" type="submit" value="Entire">
+        </form>
+    </div>
+    <br>
+    <div class="label round secondary" align="center">
+        <a href="{% url 'auth:register' %}" > Регистрация </a>
+    </div>
+
+
+{% endblock %}

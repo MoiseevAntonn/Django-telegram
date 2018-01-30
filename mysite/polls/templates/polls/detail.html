@@ -1,0 +1,54 @@
+{% load staticfiles %}
+<html>
+<head>
+    <title>Django</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+<h1 align="center" class="ale">{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url  "polls:votes" question.id%}" method="post" align="center">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br/>
+{% endfor %}
+<input type="submit" value="Vote" />
+</form>
+
+
+<h2 align="center">Комментарии</h2>
+<div class="large-offset-1 large-8 collumns" align="left">
+{% for comment in comments %}
+    <h2>{{ comment.comment_text }}  {{ comment.comment_likes }}</h2>
+    <form action="/polls/{{ comment.id }}/del_comment/" method="post">
+    {% csrf_token %}
+    <input  type="hidden" id='comment{{ comment.id }}' value="{{ comment.id}}"/>
+    <input type="submit" id="comment{{ comment.id }}" value="Удалить">
+    </form>
+    <form action="/polls/{{ comment.id }}/add_like/" method="post">
+    {% csrf_token %}
+    <input  type="hidden" id='comment{{ comment.id }}' value="{{ comment.id}}"/>
+    <p><input type="image" src="/polls/static/polls/images/Screenshot_2.png" ></p>
+    </form>
+    <hr>
+
+{% endfor %}
+</div>
+
+{% if error_auth %}
+    <h3 align="center">{{ error_auth }}</h3>
+{% else %}
+    <form action="/polls/{{ question.id }}/add_comment/" method="post" align="center" >
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="Button" value="Написать">
+    </form>
+    <a href="{%url 'polls:index'  %}" align="center">Вернуться?</a>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'polls/main.html' %}
+
+{% block register %}
+    <form action="{% url 'auth:register' %}" method="post" align="center">
+        {% csrf_token %}
+        {{ form }}
+        <h4>You email</h4>
+        <br>
+        <input class="button" type="submit" value="Register">
+    </form>
+    <br>
+    <a href="{% url 'polls:index' %}" align="center">Назад</a>
+{% endblock %}

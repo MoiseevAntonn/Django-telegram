@@ -1,0 +1,18 @@
+{% extends 'polls/main.html' %}
+{% load staticfiles  %}
+
+{% block login %}
+    <link href="{% static 'polls/founation/css/foundation.css' %}" rel="stylesheet">
+    <h3 align="center">Links</h3>
+    <div class="large-offset-3 large offset-6 columns" ">
+        {% for link in links %}
+            <h4>{{ link.email }}</h4>
+            <h4>{{ link.chat_id }}</h4>
+            <br>
+        {% endfor %}
+    </div>
+    <br>
+    
+
+
+{% endblock %}
